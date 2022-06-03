@@ -47,7 +47,7 @@ def install_solc_version(df):
     with open('install_solc_version.sh', 'w') as f:
         for version in df['compiler_version'].unique():
             f.write(f'solc-select install {version} > /dev/null\n')
-    subprocess.run([f'sh ./install_solc_version.sh'])
+    subprocess.call([f'sh ./install_solc_version.sh'])
     
 def compile_send(df, dir_path, dest_dir_path):
     if not os.path.isdir(dest_dir_path):
@@ -59,7 +59,7 @@ def compile_send(df, dir_path, dest_dir_path):
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
     
-    subprocess.run([f'sh compile_{dest_dir_path}.sh > /dev/null'])
+    subprocess.call([f'sh compile_{dest_dir_path}.sh > /dev/null'])
 
 def compile_call(df, dir_path, dest_dir_path):
     if not os.path.isdir(dest_dir_path):
@@ -71,7 +71,7 @@ def compile_call(df, dir_path, dest_dir_path):
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
     
-    subprocess.run([f'sh compile_{dest_dir_path}.sh > /dev/null'])
+    subprocess.call([f'sh compile_{dest_dir_path}.sh > /dev/null'])
 
 def compare_warning_send(df, original_dir_path, replaced_dir_path):
     unchange, add, remove = 0, 0, 0
