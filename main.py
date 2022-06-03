@@ -8,7 +8,7 @@ from util.experiment import compile_contract, compare_waring, redeploy_contract
 
 parser = argparse.ArgumentParser(description='Replace Low-level Functions in Solidity Using GoHigh.')
 
-parser.add_argument('-m', '--mode', choices=['replace', 'stats', 'compile', 'deploy'],
+parser.add_argument('-m', '--mode', choices=['replace', 'stats', 'experiment', 'deploy'],
                     default='stats',
                     help='Replace contracts/Get stats of dataset/run validation experiment')
 
