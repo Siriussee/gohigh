@@ -45,6 +45,7 @@ def get_average_gas_cost(w3, txns):
 
 def install_solc_version(df):
     with open('install_solc_version.sh', 'w') as f:
+        f.write(f'#!/bin/sh\n')
         for version in df['compiler_version'].unique():
             f.write(f'solc-select install {version} > /dev/null\n')
     subprocess.call(['chmod', '+x', f'./install_solc_version.sh'])
@@ -56,6 +57,7 @@ def compile_send(df, dir_path, dest_dir_path):
     send_df = df[df['type'].str.contains('SE')]
 
     with open(f'compile_{dest_dir_path}.sh', 'w') as f:
+        f.write(f'#!/bin/sh\n')
         for _, contract in send_df.iterrows():
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
@@ -69,6 +71,7 @@ def compile_call(df, dir_path, dest_dir_path):
     call_df = df[df['type'].str.contains('CS')]
 
     with open(f'compile_{dest_dir_path}.sh', 'w') as f:
+        f.write(f'#!/bin/sh\n')
         for _, contract in call_df.iterrows():
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
