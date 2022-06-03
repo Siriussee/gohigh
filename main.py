@@ -4,7 +4,7 @@ import argparse
 from util.data_io import read_csv
 from util.stats import report_stats
 from util.replace import replace_contract
-from util.experiment import compile_contract, compare_waring, redeploy_contract
+from util.experiment import compile_contract, compare_waring, replay_transaction
 
 parser = argparse.ArgumentParser(description='Replace Low-level Functions in Solidity Using GoHigh.')
 
@@ -37,7 +37,7 @@ def main():
         compile_contract(dataset)
         compare_waring(dataset)
     elif mode == 'deploy':
-        pass
+        replay_transaction(dataset)
 
 if __name__ == "__main__":
     main()

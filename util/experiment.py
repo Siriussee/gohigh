@@ -44,8 +44,10 @@ def get_average_gas_cost(w3, txns):
     return sum(gas_list) / len(gas_list)
 
 def install_solc_version(df):
-    for version in df['compiler_version'].unique():
-        subprocess.run([f'solc-select install {version} > /dev/null'])
+    with open('install_solc_version.sh', 'w') as f:
+        for version in df['compiler_version'].unique():
+            f.write([f'solc-select install {version} > /dev/null'])
+    subprocess.run([f'sh install_solc_version.sh'])
     
 def compile_send(df, dir_path, dest_dir_path):
     if not os.path.isdir(dest_dir_path):
