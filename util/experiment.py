@@ -56,28 +56,28 @@ def compile_send(df, dir_path, dest_dir_path):
         os.mkdir(dest_dir_path)
     send_df = df[df['type'].str.contains('SE')]
 
-    with open(f'compile_{dest_dir_path}.sh', 'w') as f:
+    with open(f'compile_{dest_dir_path.split("/")[-1]}.sh', 'w') as f:
         f.write(f'#!/bin/sh\n')
         for _, contract in send_df.iterrows():
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
     
-    subprocess.call(['chmod', '+x', f'./compile_{dest_dir_path}.sh'])
-    subprocess.call([f'./compile_{dest_dir_path}.sh'])
+    subprocess.call(['chmod', '+x', f'compile_{dest_dir_path.split("/")[-1]}.sh'])
+    subprocess.call([f'compile_{dest_dir_path.split("/")[-1]}.sh'])
 
 def compile_call(df, dir_path, dest_dir_path):
     if not os.path.isdir(dest_dir_path):
         os.mkdir(dest_dir_path)
     call_df = df[df['type'].str.contains('CS')]
 
-    with open(f'compile_{dest_dir_path}.sh', 'w') as f:
+    with open(f'compile_{dest_dir_path.split("/")[-1]}.sh', 'w') as f:
         f.write(f'#!/bin/sh\n')
         for _, contract in call_df.iterrows():
             f.write(f'solc-select use {contract["compiler_version"]}\n')
             f.write(f'solc {dir_path}/{contract["address"]}.sol > /dev/null 2> {dest_dir_path}/{contract["address"]}.sol.err\n')
     
-    subprocess.call(['chmod', '+x', f'./compile_{dest_dir_path}.sh'])
-    subprocess.call([f'./compile_{dest_dir_path}.sh'])
+    subprocess.call(['chmod', '+x', f'compile_{dest_dir_path.split("/")[-1]}.sh'])
+    subprocess.call([f'compile_{dest_dir_path.split("/")[-1]}.sh'])
 
 def compare_warning_send(df, original_dir_path, replaced_dir_path):
     unchange, add, remove = 0, 0, 0
